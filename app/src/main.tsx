@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')!).render(
         appearance: {
           theme: 'dark',
           accentColor: '#6366f1',
-          logo: 'https://your-logo-url.com/logo.png',
+          logo: 'https://raw.githubusercontent.com/Podima2/NexusFund/main/app/public/logo.png',
         },
       }}
     >
