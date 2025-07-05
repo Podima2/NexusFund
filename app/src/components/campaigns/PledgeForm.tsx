@@ -184,7 +184,7 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
           </div>
 
           {/* Currency Selection */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold text-neutral-300 mb-3">
               Currency
             </label>
@@ -205,7 +205,7 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
           <button
