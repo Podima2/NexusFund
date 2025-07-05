@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { X, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, Loader2, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
 import { Campaign } from '../../types';
 import { useNexusSDK } from '../../hooks/useNexusSDK';
 import { stablecoins} from '../../data/chainConfig';
@@ -210,20 +210,34 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={!amount || parseFloat(amount) <= 0 || isLoading || !isInitialized}
-            className="w-full bg-gradient-to-r from-blue-700 to-purple-700 hover:from-blue-600 hover:to-purple-600 disabled:from-neutral-800 disabled:to-neutral-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2"
+            disabled={!amount || parseFloat(amount) <= 0 || isLoading}
+            className="relative w-full bg-gradient-to-r from-neutral-800 to-neutral-700 hover:from-neutral-700 hover:to-neutral-600 disabled:from-neutral-900 disabled:to-neutral-900 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 overflow-hidden group shadow-lg hover:shadow-xl hover:shadow-neutral-500/20 focus:outline-none"
           >
-            {isLoading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <>
-                <span>
-                  {!isInitialized ? 'Initializing Nexus' : `Pledge ${amount ? formatAmount(parseFloat(amount)) : '$0'}`}
-                </span>
-                {/* <ArrowRight className="w-5 h-5" /> */}
-              </>
-            )}
+            {/* Animated Border Gradient */}
+            <div className="absolute inset-0 rounded-xl p-[2px] bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-green-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="w-full h-full bg-gradient-to-r from-neutral-800 to-neutral-700 group-hover:from-neutral-700 group-hover:to-neutral-600 rounded-[10px] transition-all duration-300"></div>
+            </div>
+            
+            {/* Shiny Highlight Effect */}
+            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+            </div>
+            
+            {/* Inner Glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-green-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <span className="relative z-10">
+              {isLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <span>Pledge {amount ? formatAmount(parseFloat(amount)) : '$0'}</span>
+                  {/* <ArrowRight className="w-5 h-5" /> */}
+                </>
+              )}
+            </span>
           </button>
+
         </form>
       </div>
     </div>
