@@ -144,9 +144,9 @@ export const WalletButton: React.FC = () => {
                 <div className="text-xs text-neutral-300 font-mono break-all bg-neutral-900 p-2 rounded-lg">
                   {address}
                 </div>
-                <div className="text-xs text-neutral-400">
+                {/* <div className="text-xs text-neutral-400">
                   Network: {chainId ? getChainName(chainId) : 'Unknown'}
-                </div>
+                </div> */}
               </div>
             )}
           </div>
