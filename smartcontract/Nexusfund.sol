@@ -9,7 +9,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract USDC_Crowdfund is ReentrancyGuard {
     IERC20 public immutable usdc;   // USDC token interface (6 decimals)
     address public immutable admin; // Admin address (deployer/DAO)
-
+    uint256[] public campaignIds;
+    
     struct Campaign {
         address creator;     // Campaign owner
         uint256 goal;        // Target USDC amount
@@ -75,6 +76,7 @@ contract USDC_Crowdfund is ReentrancyGuard {
         for (uint i = 0; i < tags.length; i++) {
             c.tags.push(tags[i]);
         }
+        campaignIds.push(id);
 
         emit CampaignCreated(id, msg.sender);
     }
@@ -118,5 +120,14 @@ contract USDC_Crowdfund is ReentrancyGuard {
         contributions[id][msg.sender] = 0;
         require(usdc.transfer(msg.sender, bal), "Refund failed");
         emit Refunded(id, msg.sender, bal);
+    }
+    // Getters & Setters
+    function getAllCampaigns() external view returns (Campaign[] memory) {
+        uint256 count = campaignIds.length;
+        Campaign[] memory list = new Campaign[](count);
+        for (uint i = 0; i < count; i++) {
+            list[i] = campaigns[campaignIds[i]];
+        }
+        return list;
     }
 }
