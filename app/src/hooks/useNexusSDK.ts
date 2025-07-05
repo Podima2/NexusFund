@@ -139,9 +139,6 @@ export const useNexusSDK = () => {
     async (
       campaignId: string | number,
       amount: number,
-      currency: string,
-      fromChainId: number,
-      toChainId: number
     ) => {
       if (!state.sdk || !state.isInitialized) throw new Error('Nexus SDK not initialized');
   
@@ -166,7 +163,7 @@ export const useNexusSDK = () => {
           contractAddress: "0x7355857C1a2C22BBdbDDfc028A78BAfd17fB4e45",
           contractAbi: contractAbi,
           functionName: 'deposit',
-          functionParams: [1, amount],
+          functionParams: [campaignId, amount],
           tokenApproval: {
             token: 'USDC',
             amount: amount.toString(),
