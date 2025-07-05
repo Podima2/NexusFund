@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useWallet } from './useWallet';
 import { BridgeTransaction } from '../types';
 import { NexusSDK } from '@avail-project/nexus';
+import { Abi } from 'viem';
 
 interface UnifiedBalance {
   chainId: number;
@@ -132,6 +133,53 @@ export const useNexusSDK = () => {
     }
   }, [state.sdk, state.isInitialized]);
 
+  // Bridge and pledge implementation
+  
+  const bridgeAndPledge = useCallback(
+    async (
+      campaignId: string | number,
+      amount: number,
+      currency: string,
+      fromChainId: number,
+      toChainId: number
+    ) => {
+      if (!state.sdk || !state.isInitialized) throw new Error('Nexus SDK not initialized');
+  
+      const contractAbi : Abi = [
+        {
+          inputs: [
+            { internalType: "uint256", name: "id", type: "uint256" },
+            { internalType: "uint256", name: "amount", type: "uint256" }
+          ],
+          name: "deposit",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function"
+        }
+      ];
+  
+      const result = await state.sdk.bridgeAndExecute({
+        token: 'USDC',
+        amount: amount.toString(),
+        toChainId: 84532,
+        execute: {
+          contractAddress: "0x7355857C1a2C22BBdbDDfc028A78BAfd17fB4e45",
+          contractAbi: contractAbi,
+          functionName: 'deposit',
+          functionParams: [1, amount],
+          tokenApproval: {
+            token: 'USDC',
+            amount: amount.toString(),
+          },
+        },
+        waitForReceipt: true,
+      });
+  
+      // Return transaction hash or result
+      return result.executeTransactionHash || result.executeExplorerUrl || result;
+    },
+    [state.sdk, state.isInitialized]
+  );
 
   return {
     // SDK state
@@ -145,5 +193,6 @@ export const useNexusSDK = () => {
     isLoadingBalances: state.isLoadingBalances,
     loadUnifiedBalances,
     initializeSDK,
+    bridgeAndPledge
   };
 };
