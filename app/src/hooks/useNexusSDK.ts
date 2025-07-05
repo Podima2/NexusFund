@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useWallet } from './useWallet';
-import { BridgeTransaction } from '../types';
 import { NexusSDK } from '@avail-project/nexus';
 import { Abi } from 'viem';
 
@@ -160,7 +159,7 @@ export const useNexusSDK = () => {
         amount: amount.toString(),
         toChainId: 84532,
         execute: {
-          contractAddress: "0x7355857C1a2C22BBdbDDfc028A78BAfd17fB4e45",
+          contractAddress: "0x4951992d46fa57c50Cb7FcC9137193BE639A9bEE",
           contractAbi: contractAbi,
           functionName: 'deposit',
           functionParams: [campaignId, amount],
@@ -171,7 +170,7 @@ export const useNexusSDK = () => {
         },
         waitForReceipt: true,
       });
-  
+      console.log('result', result);
       // Return transaction hash or result
       return result.executeTransactionHash || result.executeExplorerUrl || result;
     },
