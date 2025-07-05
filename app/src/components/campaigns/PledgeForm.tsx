@@ -31,14 +31,14 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount || parseFloat(amount) <= 0 || !isInitialized) return;
+    if (!amount || !isInitialized) return;
 
     setIsLoading(true);
     setStep('bridging');
     setError('');
 
     try {
-      const pledgeAmount = parseFloat(amount);
+      const pledgeAmount = amount;
       const transactionId = await bridgeAndPledge(
         campaign.id,
         pledgeAmount,
@@ -173,7 +173,6 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                min="1"
                 step="0.01"
                 className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-4 text-white text-xl font-bold placeholder-neutral-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                 required
