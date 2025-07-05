@@ -245,12 +245,12 @@ export const CreateCampaignPage: React.FC<CreateCampaignPageProps> = ({ onNaviga
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center space-x-4 mb-8 animate-slide-up">
-          <button
+          {/* <button
             onClick={() => onNavigate('dashboard')}
             className="p-2 hover:bg-neutral-800 rounded-xl transition-colors"
           >
             <ArrowLeft className="w-6 h-6 text-neutral-400" />
-          </button>
+          </button> */}
           <div>
             <h1 className="text-3xl text-sharp text-white">CREATE CAMPAIGN</h1>
             <p className="text-neutral-400 font-medium">Launch your cross-chain crowdfunding campaign</p>
