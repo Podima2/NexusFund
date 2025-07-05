@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { PrivyProvider } from '@privy-io/react-auth';
 import App from './App.tsx';
 import './index.css';
+import { NexusProvider } from '@avail-project/nexus';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <PrivyProvider
@@ -20,7 +22,8 @@ createRoot(document.getElementById('root')!).render(
         },
       }}
     >
-      <App />
+        <App />
+      
     </PrivyProvider>
   </StrictMode>
 );
