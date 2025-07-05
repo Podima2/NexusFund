@@ -114,20 +114,20 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 w-full bg-neutral-950 border border-neutral-800 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto animate-scale-in">
-          <div className="py-2">
+        <div className="absolute top-full mt-2 w-full bg-neutral-950 border border-neutral-800 rounded-xl shadow-2xl z-50 max-h-60 overflow-hidden animate-scale-in">
+          <div className="overflow-y-auto max-h-60">
             {options.map((option, index) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleOptionClick(option.value)}
                 onMouseEnter={() => setHighlightedIndex(index)}
-                className={`w-full px-4 py-3 text-left font-medium transition-all duration-150 flex items-center justify-between ${
+                className={`w-full px-4 py-2.5 text-left font-medium transition-all duration-150 flex items-center justify-between ${
                   highlightedIndex === index
-                    ? 'bg-neutral-800 text-white rounded-lg mx-2'
-                    : 'text-neutral-300 hover:bg-neutral-800 hover:text-white hover:rounded-lg hover:mx-2'
+                    ? 'bg-neutral-800 text-white'
+                    : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
                 } ${
-                  option.value === value ? 'text-white bg-neutral-800 rounded-lg mx-2 border border-neutral-700' : ''
+                  option.value === value ? 'text-white bg-neutral-800 border-l-2 border-l-blue-500' : ''
                 }`}
                 role="option"
                 aria-selected={option.value === value}

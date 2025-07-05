@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, TrendingUp, Calendar, Target, Users } from 'lucide-react';
+import { CustomSelect } from '../ui/CustomSelect';
 import { Campaign } from '../../types';
 import { useOnchainCampaigns } from '../../hooks/useOnchainCampaigns';
 import { CampaignCard } from '../campaigns/CampaignCard';
@@ -14,8 +15,30 @@ export const ExplorePage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'trending' | 'ending-soon' | 'most-funded'>('trending');
 
-  const categories = ['all', 'Technology', 'Healthcare', 'Environment', 'Education', 'Agriculture', 'Security'];
-  const statuses = ['all', 'active', 'funded', 'expired'];
+  // Convert arrays to options format for CustomSelect
+  const categoryOptions = [
+    { value: 'all', label: 'All Categories' },
+    { value: 'Technology', label: 'Technology' },
+    { value: 'Healthcare', label: 'Healthcare' },
+    { value: 'Environment', label: 'Environment' },
+    { value: 'Education', label: 'Education' },
+    { value: 'Agriculture', label: 'Agriculture' },
+    { value: 'Security', label: 'Security' }
+  ];
+
+  const statusOptions = [
+    { value: 'all', label: 'All Status' },
+    { value: 'active', label: 'Active' },
+    { value: 'funded', label: 'Funded' },
+    { value: 'expired', label: 'Expired' }
+  ];
+
+  const sortOptions = [
+    { value: 'trending', label: 'Trending' },
+    { value: 'newest', label: 'Newest' },
+    { value: 'ending-soon', label: 'Ending Soon' },
+    { value: 'most-funded', label: 'Most Funded' }
+  ];
 
   useEffect(() => {
     let filtered = [...campaigns];
@@ -69,49 +92,40 @@ export const ExplorePage: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0 lg:space-x-6">
           {/* Category and Status Filters */}
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
             <Filter className="w-5 h-5 text-neutral-400" />
             
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2 text-white font-medium focus:border-neutral-600 focus:ring-2 focus:ring-neutral-600/20 transition-all duration-200"
-            >
-              {categories.map(category => (
-                <option key={category} value={category}>
-                  {category === 'all' ? 'All Categories' : category}
-                </option>
-              ))}
-            </select>
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+              <CustomSelect
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+                options={categoryOptions}
+                placeholder="Select category"
+                className="w-full sm:w-[160px]"
+              />
 
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2 text-white font-medium focus:border-neutral-600 focus:ring-2 focus:ring-neutral-600/20 transition-all duration-200"
-            >
-              {statuses.map(status => (
-                <option key={status} value={status}>
-                  {status === 'all' ? 'All Status' : status.charAt(0).toUpperCase() + status.slice(1)}
-                </option>
-              ))}
-            </select>
+              <CustomSelect
+                value={selectedStatus}
+                onChange={setSelectedStatus}
+                options={statusOptions}
+                placeholder="Select status"
+                className="w-full sm:w-[140px]"
+              />
+            </div>
           </div>
 
           {/* Sort Options */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3 w-full lg:w-auto justify-start lg:justify-end">
             <span className="text-neutral-400 font-semibold text-sm">Sort by:</span>
-            <select
+            <CustomSelect
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2 text-white font-medium focus:border-neutral-600 focus:ring-2 focus:ring-neutral-600/20 transition-all duration-200"
-            >
-              <option value="trending">Trending</option>
-              <option value="newest">Newest</option>
-              <option value="ending-soon">Ending Soon</option>
-              <option value="most-funded">Most Funded</option>
-            </select>
+              onChange={(value) => setSortBy(value as any)}
+              options={sortOptions}
+              placeholder="Select sort"
+              className="w-full sm:w-[160px]"
+            />
           </div>
         </div>
       </div>
@@ -161,5 +175,6 @@ export const ExplorePage: React.FC = () => {
         />
       )}
     </main>
+
   );
 };
