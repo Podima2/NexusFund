@@ -108,9 +108,9 @@ export const WalletButton: React.FC = () => {
             <div className="font-semibold">
               {address ? formatAddress(address) : 'Connected'}
             </div>
-            <div className="text-xs text-neutral-400 font-medium -mt-0.5">
+            {/* <div className="text-xs text-neutral-400 font-medium -mt-0.5">
               {chainId ? getChainName(chainId) : 'Unknown Chain'}
-            </div>
+            </div> */}
           </div>
           
           <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
