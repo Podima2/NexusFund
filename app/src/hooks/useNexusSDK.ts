@@ -164,7 +164,7 @@ export const useNexusSDK = () => {
 
       const result: BridgeAndExecuteResult = await state.sdk.bridgeAndExecute({
         token: 'USDC',
-        amount: amountInSmallestUnit,
+        amount: pledgeAmount,
         toChainId: 84532,
         execute: {
           contractAddress: "0x4951992d46fa57c50Cb7FcC9137193BE639A9bEE",

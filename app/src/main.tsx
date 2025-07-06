@@ -4,6 +4,7 @@ import { PrivyProvider } from '@privy-io/react-auth';
 import App from './App.tsx';
 import './index.css';
 import { NexusProvider } from '@avail-project/nexus';
+import {arbitrumSepolia, baseSepolia, optimismSepolia, sepolia, base, optimism, arbitrum} from 'viem/chains';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +16,8 @@ createRoot(document.getElementById('root')!).render(
             createOnLogin: 'users-without-wallets'
           }
         },
+        defaultChain: baseSepolia,
+        supportedChains: [base, optimism, baseSepolia, sepolia, optimismSepolia, arbitrumSepolia, arbitrum],
         appearance: {
           theme: 'dark',
           accentColor: '#6366f1',
