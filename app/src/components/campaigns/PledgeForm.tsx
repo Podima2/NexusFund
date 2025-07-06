@@ -19,7 +19,7 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
   const [txId, setTxId] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  const { bridgeAndPledge, isInitialized, initializeSDK } = useNexusSDK();
+  const { bridgeAndPledge, isInitialized, initializeSDK, isInitializing } = useNexusSDK();
   const { isConnected } = useWallet();
   
   useEffect(() => {
@@ -71,15 +71,15 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
           <div className="mb-6">
             <Loader2 className="w-16 h-16 text-blue-400 animate-spin mx-auto mb-4" />
             <h3 className="text-xl font-bold text-white mb-2">Processing Your Pledge</h3>
-            <p className="text-neutral-400">
+            {/* <p className="text-neutral-400">
               Bridging  
-            </p>
+            </p> */}
           </div>
           
           <div className="space-y-3 text-left">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              <span className="text-neutral-300">Initiating cross-chain bridge...</span>
+              <span className="text-neutral-300">NexusOnFire</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-neutral-600 rounded-full"></div>
@@ -210,7 +210,7 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={!amount || parseFloat(amount) <= 0 || isLoading}
+            disabled={!amount || parseFloat(amount) <= 0 || isLoading || isInitializing || !isInitialized }
             className="relative w-full bg-gradient-to-r from-neutral-800 to-neutral-700 hover:from-neutral-700 hover:to-neutral-600 disabled:from-neutral-900 disabled:to-neutral-900 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 overflow-hidden group shadow-lg hover:shadow-xl hover:shadow-neutral-500/20 focus:outline-none"
           >
             {/* Animated Border Gradient */}
@@ -229,7 +229,15 @@ export const PledgeForm: React.FC<PledgeFormProps> = ({ campaign, onClose, onSuc
             <span className="relative z-10">
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
+              ) : 
+               isInitializing ? (
+                <span className="flex items-center">
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  <span>Initializing Nexus...</span>
+                </span>
+              ) :
+
+              (
                 <>
                   <span>Pledge {amount ? formatAmount(parseFloat(amount)) : '$0'}</span>
                   {/* <ArrowRight className="w-5 h-5" /> */}
