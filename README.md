@@ -5,6 +5,9 @@
 NexusFund lets anyone launch or support campaigns with stablecoins from any blockchain. Using Avail Nexus SDK's `bridgeAndExecute()`, contributors can seamlessly pledge funds cross-chain—no matter where their assets are held. All pledges are securely bridged and held in escrow on a single chain, ensuring transparent, atomic release or refund of funds when campaign goals are met or missed.
 
 ---
+# Presentation
+
+[Watch me! :)](https://www.canva.com/design/DAGsX0uc-NY/Dd_Q4h321JjSrgQndsAXXQ/edit?utm_content=DAGsX0uc-NY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## 🚀 Table of Contents
 
