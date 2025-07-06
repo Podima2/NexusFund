@@ -14,6 +14,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({ campaign, onClose 
   const [showPledgeForm, setShowPledgeForm] = useState(false);
   const [activeTab, setActiveTab] = useState<'details' | 'comments'>('details');
   const { address } = useWallet();
+  const [comments, setComments] = useState(campaign.comments);
   const progressPercentage = (campaign.currentAmount / campaign.targetAmount) * 100;
   const daysLeft = Math.ceil((campaign.deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
@@ -35,8 +36,20 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({ campaign, onClose 
   };
 
   const handleAddComment = (content: string) => {
-    // In a real app, this would make an API call
-    console.log('Adding comment:', content);
+    // Optimistically add the comment to local state
+    const newComment = {
+      id: Date.now().toString(),
+      campaignId: campaign.id,
+      author: address ? address.slice(0, 6) + '...' + address.slice(-4) : 'You',
+      authorAddress: address || '',
+      content,
+      createdAt: new Date(),
+      likes: 0,
+      replies: [],
+      isCreator: address === campaign.creatorAddress,
+    };
+    setComments(prev => [newComment, ...prev]);
+    // Optionally, also send to backend or contract here
   };
 
   const handleAddReply = (commentId: string, content: string) => {
@@ -160,7 +173,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({ campaign, onClose 
               ) : (
                 <div className="animate-slide-up">
                   <CommentSection
-                    comments={campaign.comments}
+                    comments={comments}
                     campaignCreator={campaign.creatorAddress}
                     onAddComment={handleAddComment}
                     onAddReply={handleAddReply}
