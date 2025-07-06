@@ -1,6 +1,8 @@
-# 🌐 NEXUSFUND
+# 🌐 NexusFund
 
-A decentralized crowdfunding social dApp enabling **cross-chain stablecoin pledges**, held in escrow on a single chain and released atomically using Avail Nexus SDK’s `bridgeAndExecute()`. Contributors pledge from any chain — funds are bridged and deposited in one seamless transaction. Once the goal is met, funds are released or refunded with another atomic call.
+**The cross-chain crowdfunding dApp for the next generation of global projects.**
+
+NexusFund lets anyone launch or support campaigns with stablecoins from any blockchain. Using Avail Nexus SDK's `bridgeAndExecute()`, contributors can seamlessly pledge funds cross-chain—no matter where their assets are held. All pledges are securely bridged and held in escrow on a single chain, ensuring transparent, atomic release or refund of funds when campaign goals are met or missed.
 
 ---
 
@@ -8,35 +10,30 @@ A decentralized crowdfunding social dApp enabling **cross-chain stablecoin pledg
 
 1. [Features](#features)  
 2. [Architecture](#architecture)  
-3. [Demo](#demo)  
-4. [Getting Started](#getting-started)  
-   - Prerequisites  
-   - Smart Contract Deployment  
-   - Frontend Setup  
-5. [Usage](#usage)  
-   - Pledge  
-   - Release Funds 
-6. [Built With](#built-with)  
-7. [Contributing](#contributing)  
-8. [License](#license)  
-9. [Acknowledgements](#acknowledgements)
+3. [Smart Contract Overview](#smart-contract-overview)  
+4. [Demo](#demo)  
+5. [Getting Started](#getting-started)  
+6. [Usage](#usage)  
+7. [Built With](#built-with)  
+8. [Contributing](#contributing)  
+9. [License](#license)  
+10. [Acknowledgements](#acknowledgements)
 
 ---
 
 ## ✨ Features
 
-- **Atomic cross-chain pledges**: Contributors use `bridgeAndExecute()` to pledge stablecoins from any chain directly into escrow.  
-- **Unified goal tracking**: Total pledges are aggregated on a single contract, regardless of source chain.  
-- **Single-contract logic**: All core escrow logic (deposit/release/refund) exists on one chain.  
-- **Secure fund flows**: Once the target is met, funds are released; otherwise, refunds are enabled.  
-- **Single-call UX**: Bridging and execution happen in a single, SDK-driven transaction.
+- **Cross-chain pledges:** Pledge stablecoins from any supported blockchain.
+- **Unified escrow:** All funds are held and managed on a single chain for transparency.
+- **Atomic execution:** Bridging and contract calls happen in a single transaction.
+- **Goal-based release:** Funds are released or refunded automatically based on campaign outcome.
+- **Modern UX:** One-click pledging, real-time updates, and social features.
 
 ---
 
 ## 🧩 Architecture
 
 ```
-
 User (Polygon, BSC, etc.)
 │
 \[Nexus bridge]
@@ -45,11 +42,50 @@ Escrow Contract ← Frontend/App
 │
 Campaign Logic: deposit(), release(), refund()
 
-````
+```
 
-- Smart contract deployed on one chain (e.g., Ethereum).  
+- Smart contract deployed on one chain (e.g., Base Sepolia).  
 - `bridgeAndExecute()` handles bridging and execution in one transaction.  
 - Escrow contract tracks campaign status and contributor balances.
+
+---
+
+## 📝 Smart Contract Overview
+
+**Deployed Address (Base Sepolia):**  
+[`0x4951992d46fa57c50Cb7FcC9137193BE639A9bEE`](https://sepolia.basescan.org/address/0x4951992d46fa57c50Cb7FcC9137193BE639A9bEE)
+
+The core escrow contract is deployed on a single chain (e.g., Base Sepolia) and manages all campaign logic and funds in USDC (6 decimals). It is designed for seamless cross-chain pledges via Avail Nexus.
+
+### Campaign Struct
+```solidity
+struct Campaign {
+    address creator;     // Campaign owner
+    uint256 goal;        // Target USDC amount (in 1e6 units)
+    uint256 pledged;     // Current pledged amount
+    uint256 deadline;    // UNIX timestamp deadline
+    bool released;       // Whether funds have been released
+    string title;        // Campaign title
+    string description;  // Detailed description
+    string category;     // Category (e.g. "Art", "Tech")
+    string imageUrl;     // URL for campaign image
+    string[] tags;       // Tags for search & categorization
+}
+```
+
+### Main Functions
+- `createCampaign(goal, durationSeconds, title, description, category, imageUrl, tags)`  
+  Create a new campaign with metadata and a funding goal.
+- `deposit(id, amount)`  
+  Pledge USDC to a campaign. Can be called via cross-chain bridge.
+- `release(id)`  
+  Release funds to the creator/admin if the campaign is successful (goal met, deadline passed).
+- `refund(id)`  
+  Refund contributors if the campaign fails (goal not met, deadline passed).
+- `getAllCampaigns()`  
+  Returns all campaigns and their metadata.
+
+All funds are held in escrow until the campaign is finalized (released or refunded). The contract is compatible with Avail Nexus cross-chain bridging and execution.
 
 ---
 
@@ -70,10 +106,10 @@ Campaign Logic: deposit(), release(), refund()
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/yourusername/global-crowdfund-escrow.git
-cd global-crowdfund-escrow
+git clone https://github.com/Podima2/NexusFund
+cd NexusFund
 npm install
-````
+```
 
 ### 2. Deploy Smart Contract
 
@@ -102,7 +138,7 @@ Install & start frontend:
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev
 ```
 
 ---
